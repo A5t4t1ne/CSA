@@ -1,0 +1,32 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net8.0</TargetFramework>
+	  <NoWarn>CA1416</NoWarn>
+	  <GenerateRuntimeConfigurationFiles>true</GenerateRuntimeConfigurationFiles>
+  </PropertyGroup>
+  
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Command="scp -r . raspy:~/netcore/Excersises" />
+  </Target>
+
+  <ItemGroup>
+    <None Remove="Ressources\AsciiFontPng" />
+    <None Remove="Ressources\test.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Ressources\AsciiFontPng" />
+    <EmbeddedResource Include="Ressources\test.png" />
+    <None Remove="Ressources\arch.png" />
+    <EmbeddedResource Include="Ressources\arch.png" />
+    <None Remove="Ressources\arch_black.png" />
+    <EmbeddedResource Include="Ressources\arch_black.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Explorer700Library\Explorer700Library.csproj" />
+  </ItemGroup>
+
+</Project>
