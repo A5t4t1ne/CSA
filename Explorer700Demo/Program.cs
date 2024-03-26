@@ -13,13 +13,17 @@ namespace Explorer700Demo
     
     class Program
     {
-        private static Explorer700 exp;
+        private static Explorer700 exp = Exp700Singleton.Instance;
 
         static void Main(string[] args)
         {
-            // Console.WriteLine("Start...");
-            // exp = new Explorer700();
-            //
+            Console.WriteLine("Start...");
+            exp = Exp700Singleton.Instance;
+            Game game = new Game();
+            game.Start();
+            Console.ReadKey();
+            game.Stop();
+
             //
             // Explorer700 e700 = new Explorer700();
             // e700.Joystick.JoystickChanged += OnJoyStickChange;
@@ -31,7 +35,7 @@ namespace Explorer700Demo
             //     e700.Buzzer.Beep(time);
             //     Thread.Sleep(time);
             // }
-            
+
             // Eingebettete Bild Ressource laden und auf dem Display darstellen
             // var resNames = Assembly.GetExecutingAssembly().GetManifestResourceNames();
             // var imageStream = Assembly.GetExecutingAssembly().GetManifestResourceStream("Explorer700Demo.Ressources.arch_black.png");
@@ -40,36 +44,36 @@ namespace Explorer700Demo
             //     Console.WriteLine("Whut?");
             //     return;
             // }
-            //
-            // var g = exp.Display.Graphics;
+
+            // Graphics g = exp.Display.Graphics;
             // var image = Image.FromStream(imageStream);
             // g.DrawImage(image, new Point(0, 0));
-            // g.DrawString("I use Arch\nbtw", new Font(new FontFamily("arial"), 8, FontStyle.Bold), Brushes.Black, new PointF(64, 20));
+            // g.DrawString("I use Arch\nbtw", new Font(new FontFamily("arial"), 8, FontStyle.Bold), Brushes.Black, new PointF(64, 40));
             // exp.Display.Update();
             // Console.ReadKey();
-            
-            Console.WriteLine("Start...");
-            Stopwatch sw = new Stopwatch();
-            exp = new Explorer700();
-            Graphics g = exp.Display.Graphics;
-            List<Image> images = new List<Image>();
-            List<int> position = new List<int>();
 
-            //creating starting screen
-            Game game = new Game();
-            game.StartScreen(g);
-
-            //generating and moving enemy
-            Thread enmy = new Thread(() => Enemy(images, position, g));
-            enmy.Start();
-
-            //Jumping and gernerating player
-            Thread jup = new Thread(() => jump(g));
-            jup.Start();
-
-            Console.WriteLine(exp.Joystick.Keys);
-
-            Console.ReadKey();
+            // Console.WriteLine("Start...");
+            // Stopwatch sw = new Stopwatch();
+            // exp = new Explorer700();
+            // Graphics g = exp.Display.Graphics;
+            // List<Image> images = new List<Image>();
+            // List<int> position = new List<int>();
+            //
+            // //creating starting screen
+            // Game game = new Game();
+            // game.StartScreen(g);
+            //
+            // //generating and moving enemy
+            // Thread enmy = new Thread(() => Enemy(images, position, g));
+            // enmy.Start();
+            //
+            // //Jumping and gernerating player
+            // Thread jup = new Thread(() => jump(g));
+            // jup.Start();
+            //
+            // Console.WriteLine(exp.Joystick.Keys);
+            //
+            // Console.ReadKey();
         }
 
     }

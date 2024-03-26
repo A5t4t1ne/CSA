@@ -20,6 +20,7 @@ namespace Explorer700Library
         private int res;
         private int dnc;
         private Bitmap bitmap;
+        public readonly int[] resolution = new[] { 128, 64 };
 
 
         public Display(GpioController gpioController)

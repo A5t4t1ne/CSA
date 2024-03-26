@@ -23,6 +23,14 @@
     <EmbeddedResource Include="Ressources\arch.png" />
     <None Remove="Ressources\arch_black.png" />
     <EmbeddedResource Include="Ressources\arch_black.png" />
+    <None Remove="Ressources\block.png" />
+    <EmbeddedResource Include="Ressources\block.png" />
+    <None Remove="Ressources\boden.png" />
+    <EmbeddedResource Include="Ressources\boden.png" />
+    <None Remove="Ressources\spitze_gross.png" />
+    <EmbeddedResource Include="Ressources\spitze_gross.png" />
+    <None Remove="Ressources\spitze_klein.png" />
+    <EmbeddedResource Include="Ressources\spitze_klein.png" />
   </ItemGroup>
 
   <ItemGroup>
