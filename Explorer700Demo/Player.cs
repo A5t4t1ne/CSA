@@ -23,6 +23,7 @@ public class Player : Entity
     public override void UpdatePos()
     {
         // If player is not in a jumping animation, his position doesn't change.
+        // TODO Fix
         if (!_jumping) return;
         
         if (this.Pos.Y >= Res[0] - GroundLevel)

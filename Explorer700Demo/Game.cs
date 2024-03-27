@@ -15,7 +15,7 @@ public class Game()
     private Explorer700 Exp700 { get; } = Exp700Singleton.Instance;
     private List<Entity> _entities = new ();
     private Player _player;
-    public static bool KeyUp;
+    public static Keys KeyStates;
     private bool _running = false;
     private const int FPS = 10;
 
@@ -52,7 +52,7 @@ public class Game()
 
         var g = Exp700.Display.Graphics;
 
-        bool stateUpOld = KeyUp;
+        bool stateUpOld = (Game.KeyStates & Keys.Up) != 0;
         while (_running)
         {
             // TODO: add entities (enemies)
@@ -63,11 +63,12 @@ public class Game()
                 entity.Draw();
             }
 
-            if (KeyUp && !stateUpOld)
+            bool StateUpCurr = (Game.KeyStates & Keys.Up) != 0;
+            if (StateUpCurr && !stateUpOld)
             {   
                 _player.Jump();
             }
-            stateUpOld = KeyUp;
+            stateUpOld = StateUpCurr;
             
             g.DrawImage(imgFloor, 0, 54);
             
@@ -90,6 +91,6 @@ public class Game()
     private static void OnJoyStickChange(object? sender, KeyEventArgs e)
     {
         Console.WriteLine("Joystick: " + e.Keys);
-        Game.KeyUp = (e.Keys & Keys.Up) != 0;
+        Game.KeyStates = e.Keys;
     }
 }
