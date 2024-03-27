@@ -5,6 +5,7 @@
     <TargetFramework>net8.0</TargetFramework>
 	  <NoWarn>CA1416</NoWarn>
 	  <GenerateRuntimeConfigurationFiles>true</GenerateRuntimeConfigurationFiles>
+	  <Nullable>enable</Nullable>
   </PropertyGroup>
   
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">

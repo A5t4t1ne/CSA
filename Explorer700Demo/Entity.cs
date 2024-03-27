@@ -12,6 +12,8 @@ public abstract class Entity
     protected Vector2 Pos { get; set; }
     public Vector2 Hitbox { get; } // TODO
     
+    protected static readonly int[] Res = [128, 64];
+    
     private readonly Graphics _graphics = Exp700Singleton.Instance.Display.Graphics;
     
     public Entity(Image img, Vector2 startPos, Vector2 hitbox)
@@ -32,6 +34,14 @@ public abstract class Entity
         // TODO Check if operation is valid / result in valid boundary
         this.Pos += diff;
     
+        return true;
+    }
+
+    protected bool SetPos(int x, int y)
+    {
+        if (x > Entity.Res[0] || y > Entity.Res[1]) return false;
+
+        this.Pos = new Vector2(x, y);
         return true;
     }
 
