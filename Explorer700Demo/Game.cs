@@ -13,11 +13,11 @@ namespace Explorer700Demo;
 public class Game()
 {
     private Explorer700 Exp700 { get; } = Exp700Singleton.Instance;
-    private List<Entity> _entities = new ();
+    private readonly List<Entity> _entities = [];
     private Player _player;
     public static Keys KeyStates;
     private bool _running = false;
-    private const int FPS = 10;
+    public static readonly int FPS = 50;
 
     /// <summary>
     /// Starts the game cycle.
@@ -47,7 +47,7 @@ public class Game()
         // Debug lol
         var imgFloor = Image.FromStream(Assembly.GetExecutingAssembly().GetManifestResourceStream("Explorer700Demo.Ressources.boden.png"));
         var imgBlock = Image.FromStream(Assembly.GetExecutingAssembly().GetManifestResourceStream("Explorer700Demo.Ressources.block.png"));
-        _player = new Player(imgBlock, new Vector2(0, 30), new Vector2(20, 20));
+        _player = new Player(imgBlock, new Vector2(0, 43), new Vector2(11, 11));
         _entities.Add(_player);
 
         var g = Exp700.Display.Graphics;
