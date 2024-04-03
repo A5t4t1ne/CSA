@@ -1,10 +1,8 @@
 using System;
-using System.Collections.Generic;
+using System.Collections.Concurrent;
 using System.Drawing;
-using System.IO;
 using System.Numerics;
 using System.Reflection;
-using System.Runtime.CompilerServices;
 using System.Threading;
 using Explorer700Library;
 
@@ -13,7 +11,7 @@ namespace Explorer700Demo;
 public class Game()
 {
     private Explorer700 Exp700 { get; } = Exp700Singleton.Instance;
-    private readonly List<Entity> _entities = [];
+    private readonly BlockingCollection<Entity> _entities = [];
     private Player _player;
     public static Keys KeyStates;
     private bool _running = false;
@@ -51,7 +49,8 @@ public class Game()
         _entities.Add(_player);
 
         var g = Exp700.Display.Graphics;
-
+        Thread enemyThread = new Thread(new ThreadStart(GenerateEnemies));
+        enemyThread.Start();
         bool stateUpOld = (Game.KeyStates & Keys.Up) != 0;
         while (_running)
         {
@@ -86,8 +85,43 @@ public class Game()
     {
         // TODO
     }
-    
-    
+
+    private void GenerateEnemies()
+    {
+        var imgEnemyBig = Image.FromStream(Assembly.GetExecutingAssembly().GetManifestResourceStream("Explorer700Demo.Ressources.spitze_gross.png"));
+        var imgEnemySmall = Image.FromStream(Assembly.GetExecutingAssembly().GetManifestResourceStream("Explorer700Demo.Ressources.spitze_klein.png"));
+        int timeout;
+        Random rnd = new Random();
+
+        while (_running)
+        {
+            timeout = rnd.Next(500, 2000);
+            var enemy = timeout % 2 == 0 ? 
+                new Enemy(imgEnemySmall, new Vector2(125, 44), new Vector2(20, 20), new EnemyOutOfScreenHandler(RemoveEnemy)) 
+                : new Enemy(imgEnemyBig, new Vector2(125, 32), new Vector2(20, 50), new EnemyOutOfScreenHandler(RemoveEnemy));
+
+
+           this._entities.Add(enemy);
+
+            Thread.Sleep(timeout);
+        }
+    }
+
+    public void RemoveEnemy(object source)
+    {
+        if (source.GetType() ==  typeof(Enemy))
+        {
+            Entity localItem;
+            this._entities.TryTake(out localItem);
+
+            if (localItem.GetType() == typeof(Player))
+            {
+                this._entities.Add((Player)localItem);
+                this._entities.Take();
+            }
+        }
+    }
+
     private static void OnJoyStickChange(object? sender, KeyEventArgs e)
     {
         Console.WriteLine("Joystick: " + e.Keys);

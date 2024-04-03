@@ -1,11 +1,5 @@
-using System;
 using System.Numerics;
 using System.Drawing;
-using System.IO;
-using System.Reflection;
-using System.Threading;
-using Explorer700Library;
-using Iot.Device.SenseHat;
 
 namespace Explorer700Demo;
 

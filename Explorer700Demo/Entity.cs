@@ -1,8 +1,5 @@
-using System;
-using System.Net.Mime;
 using System.Numerics;
 using System.Drawing;
-using Explorer700Library;
 
 namespace Explorer700Demo;
 

@@ -3,10 +3,16 @@ using System.Numerics;
 
 namespace Explorer700Demo;
 
-public class Enemy(Image img, Vector2 startPos, Vector2 hitbox) : Entity(img, startPos, hitbox)
+public class Enemy(Image img, Vector2 startPos, Vector2 hitbox, EnemyOutOfScreenHandler handler) : Entity(img, startPos, hitbox)
 {
+    private int moveSpeed = 5;
     public override void UpdatePos()
     {
-        throw new System.NotImplementedException();
+        this.Move(new Vector2(-moveSpeed, 0));
+
+        if (this.Pos.X < 0)
+        {
+            handler(this);
+        }
     }
 }
