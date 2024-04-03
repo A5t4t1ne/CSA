@@ -60,6 +60,10 @@ public class Game()
             {
                 entity.UpdatePos();
                 entity.Draw();
+
+                if (entity.GetType() == typeof(Player) && ((Player)entity).isEnemyInHitbox(_entities)) {
+                    Stop();
+                }
             }
 
             bool StateUpCurr = (Game.KeyStates & Keys.Up) != 0;
@@ -97,13 +101,12 @@ public class Game()
         {
             timeout = rnd.Next(500, 2000);
             var enemy = timeout % 2 == 0 ? 
-                new Enemy(imgEnemySmall, new Vector2(125, 44), new Vector2(20, 20), new EnemyOutOfScreenHandler(RemoveEnemy)) 
-                : new Enemy(imgEnemyBig, new Vector2(125, 32), new Vector2(20, 50), new EnemyOutOfScreenHandler(RemoveEnemy));
+                new Enemy(imgEnemySmall, new Vector2(125, 43), new Vector2(11, 11), new EnemyOutOfScreenHandler(RemoveEnemy)) 
+                : new Enemy(imgEnemyBig, new Vector2(125, 32), new Vector2(11, 22), new EnemyOutOfScreenHandler(RemoveEnemy));
 
 
            this._entities.Add(enemy);
-
-            Thread.Sleep(timeout);
+           Thread.Sleep(timeout);
         }
     }
 

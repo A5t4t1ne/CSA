@@ -1,5 +1,6 @@
 using System.Numerics;
 using System.Drawing;
+using System.Collections.Concurrent;
 
 namespace Explorer700Demo;
 
@@ -59,6 +60,26 @@ public class Player : Entity
         if (this.Pos.Y + this.Hitbox.Y < GroundLevel) return;
         this._jumping = true;
     }
+
+    public bool IsEnemyInHitbox(BlockingCollection<Entity> entries)
+    {
+        foreach (var entry in entries)
+        {
+            if (entry.GetType() == typeof(Player))
+            {
+                continue;
+            }
+
+            if (IsCollidingWith(entry))
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+
 
     /// <summary>
     /// Sets player position to ground.

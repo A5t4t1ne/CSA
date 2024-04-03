@@ -1,5 +1,6 @@
 using System.Numerics;
 using System.Drawing;
+using System;
 
 namespace Explorer700Demo;
 
@@ -56,4 +57,40 @@ public abstract class Entity
     {
         _graphics.DrawImage(Img, Pos.X, Pos.Y);
     }
+
+    /// <summary>
+    /// Checks if the player is colliding with enemy
+    /// </summary>
+    /// <param name="entity"></param>
+    /// <returns></returns>
+    protected bool IsCollidingWith(Entity enemy)
+    {
+        if (enemy == null)
+        {
+            return false;
+        }
+
+        var bottomOfPlayer = this.Pos.Y - this.Hitbox.Y;
+        var bottomOfEnemy = enemy.Pos.Y - enemy.Hitbox.Y;
+        var rightOfPlayer = this.Pos.X + this.Hitbox.X;
+        var rightOfEnemy = enemy.Pos.X + enemy.Hitbox.X;
+
+        // Bottom-left Edge is in Hitbox of Enemy
+        if ((bottomOfEnemy <= bottomOfPlayer && bottomOfPlayer <= enemy.Pos.Y)
+            && (enemy.Pos.X <= this.Pos.X && this.Pos.X <= rightOfEnemy))
+        {
+            Console.WriteLine("Bottom-left edge touched enemy hitbox");
+            return true;
+        }
+
+        // Right Edge is in Hitbox of Enemy
+        if ((bottomOfEnemy <= bottomOfPlayer && bottomOfPlayer <= enemy.Pos.Y)
+          && (enemy.Pos.X <= rightOfPlayer && rightOfPlayer <= rightOfEnemy))
+        {
+            Console.WriteLine("Bottom-right edge touched enemy hitbox");
+            return true;
+        }
+
+        return false;
+      }
 }
