@@ -25,11 +25,10 @@ public class Game()
         Exp700.Joystick.JoystickChanged += OnJoyStickChange;
         var g = Exp700.Display.Graphics;
         _running = false;
-        
+        StartScreen(g);
         // TODO: Change logic, to draw StartScreen first then start logic with JoyStick press
         while (!(_running))
         {
-            StartScreen(g);
             bool stateleft = (Game.KeyStates & Keys.Left) != 0;
             bool stateright = (Game.KeyStates & Keys.Right) != 0;
             if (stateleft)
