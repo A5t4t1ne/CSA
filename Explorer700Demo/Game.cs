@@ -77,7 +77,7 @@ public class Game()
                 entity.UpdatePos();
                 entity.Draw();
 
-                if (entity.GetType() == typeof(Player) && ((Player)entity).isEnemyInHitbox(_entities)) {
+                if (entity.GetType() == typeof(Player) && ((Player)entity).IsEnemyInHitbox(_entities)) {
                     Stop();
                 }
             }
