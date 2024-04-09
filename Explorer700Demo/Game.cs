@@ -13,7 +13,7 @@ public class Game()
     private Explorer700 Exp700 { get; } = Exp700Singleton.Instance;
     private readonly BlockingCollection<Entity> _entities = [];
     private Player _player;
-    public static Keys KeyStates;
+    private static Keys KeyStates;
     private bool _running = false;
     public static readonly int FPS = 50;
 
@@ -57,8 +57,6 @@ public class Game()
     /// </summary>
     private void Run()
     {
-        // TODO: Adjust location, hit-box and general size numbers
-        // Debug lol
         var imgFloor = Image.FromStream(Assembly.GetExecutingAssembly().GetManifestResourceStream("Explorer700Demo.Ressources.boden.png"));
         var imgBlock = Image.FromStream(Assembly.GetExecutingAssembly().GetManifestResourceStream("Explorer700Demo.Ressources.block.png"));
         _player = new Player(imgBlock, new Vector2(0, 43), new Vector2(11, 11));
@@ -70,8 +68,6 @@ public class Game()
         bool stateUpOld = (Game.KeyStates & Keys.Up) != 0;
         while (_running)
         {
-            // TODO: add entities (enemies)
-            // TODO: implement hit-box validating
             foreach (var entity in _entities)
             {
                 entity.UpdatePos();
