@@ -23,10 +23,10 @@ public class Game()
     public void Start()
     {
         Exp700.Joystick.JoystickChanged += OnJoyStickChange;
-        var g = Exp700.Display.Graphics;
         _running = false;
-        StartScreen(g);
-        Exp700.Display.Update();
+        
+        DrawStartScreen();
+        
         // TODO: Change logic, to draw StartScreen first then start logic with JoyStick press
         while (!(_running))
         {
@@ -101,11 +101,13 @@ public class Game()
     /// Draw Start Screen
     /// </summary>
     /// <param name="g"></param>
-    private void StartScreen(Graphics g)
+    private void DrawStartScreen()
     {
-        // TODO
-        var imgStrt = Image.FromStream(Assembly.GetExecutingAssembly().GetManifestResourceStream("Explorer700Demo.Ressources.startscrn.png"));
-        g.DrawImage(imgStrt, 0, 0);
+        var g = Exp700.Display.Graphics;
+        Exp700.Display.Clear();
+        var imgStart = Image.FromStream(Assembly.GetExecutingAssembly().GetManifestResourceStream("Explorer700Demo.Ressources.startscrn.png"));
+        g?.DrawImage(imgStart, 0, 0);
+        Exp700.Display.Update();
     }
 
     private void GenerateEnemies()

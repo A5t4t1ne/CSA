@@ -32,6 +32,8 @@
     <EmbeddedResource Include="Ressources\spitze_gross.png" />
     <None Remove="Ressources\spitze_klein.png" />
     <EmbeddedResource Include="Ressources\spitze_klein.png" />
+    <None Remove="Ressources\startscrn.png" />
+    <EmbeddedResource Include="Ressources\startscrn.png" />
   </ItemGroup>
 
   <ItemGroup>
