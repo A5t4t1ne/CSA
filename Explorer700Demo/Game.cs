@@ -26,6 +26,19 @@ public class Game()
         _running = true;
         
         // TODO: Change logic, to draw StartScreen first then start logic with JoyStick press
+        while (i)
+        {
+            StartScreen(g);
+            bool stateleft = (Game.KeyStates & Keys.Left) != 0;
+            bool stateright = (Game.KeyStates & Keys.Right) != 0;
+            if (stateleft)
+            {
+                i = false;
+            } else if (stateright)
+            {
+                System.Environment.Exit(0);
+            }
+        }
         Thread mainThread = new Thread(new ThreadStart(Run));
         mainThread.Start();
     }
@@ -88,6 +101,8 @@ public class Game()
     private void StartScreen(Graphics g)
     {
         // TODO
+        var imgStrt = Image.FromStream(Assembly.GetExecutingAssembly().GetManifestResourceStream("Explorer700Demo.Ressources.startscrn.png"));
+        g.DrawImage(imgStrt, 0, 0);
     }
 
     private void GenerateEnemies()
