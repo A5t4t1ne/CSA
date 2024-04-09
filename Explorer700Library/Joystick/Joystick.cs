@@ -47,7 +47,7 @@ namespace Explorer700Library
             get
             {
                 Keys k = Keys.NoKey;
-                // ToDo
+
                 if (!(bool)GpioController.Read(centerPin)) k |= Keys.Center;
                 if (!this.Pcf8574[0]) k |= Keys.Left;
                 if (!this.Pcf8574[1]) k |= Keys.Up;

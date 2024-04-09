@@ -8,7 +8,7 @@ public abstract class Entity
 {
     protected Image Img { get; }
     protected Vector2 Pos { get; set; }
-    public Vector2 Hitbox { get; } // TODO
+    public Vector2 Hitbox { get; }
     
     protected static readonly int[] Res = [128, 64];
     
@@ -59,10 +59,10 @@ public abstract class Entity
     }
 
     /// <summary>
-    /// Checks if the player is colliding with enemy
+    /// Checks if the player is colliding with an enemy
     /// </summary>
-    /// <param name="entity"></param>
-    /// <returns></returns>
+    /// <param name="enemy">The enemy to compare the hitbox with</param>
+    /// <returns>true if the two hitboxes collide, false if not</returns>
     protected bool IsCollidingWith(Entity enemy)
     {
         if (enemy == null)
@@ -75,7 +75,7 @@ public abstract class Entity
         var rightOfPlayer = this.Pos.X + this.Hitbox.X;
         var rightOfEnemy = enemy.Pos.X + enemy.Hitbox.X;
 
-        // Bottom-left Edge is in Hitbox of Enemy
+        // Bottom-left edge is in hitbox of enemy
         if ((bottomOfEnemy <= bottomOfPlayer && bottomOfPlayer <= enemy.Pos.Y)
             && (enemy.Pos.X <= this.Pos.X && this.Pos.X <= rightOfEnemy))
         {
@@ -83,7 +83,7 @@ public abstract class Entity
             return true;
         }
 
-        // Right Edge is in Hitbox of Enemy
+        // Bottom-right edge is in hitbox of enemy
         if ((bottomOfEnemy <= bottomOfPlayer && bottomOfPlayer <= enemy.Pos.Y)
           && (enemy.Pos.X <= rightOfPlayer && rightOfPlayer <= rightOfEnemy))
         {

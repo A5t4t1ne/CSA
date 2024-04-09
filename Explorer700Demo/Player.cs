@@ -61,6 +61,11 @@ public class Player : Entity
         this._jumping = true;
     }
 
+    /// <summary>
+    /// Validates if any of the enemies is in the players hitbox.
+    /// </summary>
+    /// <param name="entries">A BlockingCollection containing all the enemies</param>
+    /// <returns>True if any enemy in the collection is colliding with the hitbox of the player, false if not</returns>
     public bool IsEnemyInHitbox(BlockingCollection<Entity> entries)
     {
         foreach (var entry in entries)
