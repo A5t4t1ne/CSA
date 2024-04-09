@@ -62,7 +62,7 @@ public class Game()
                 entity.UpdatePos();
                 entity.Draw();
 
-                if (entity.GetType() == typeof(Player) && ((Player)entity).isEnemyInHitbox(_entities)) {
+                if (entity.GetType() == typeof(Player) && ((Player)entity).IsEnemyInHitbox(_entities)) {
                     Stop();
                 }
             }
@@ -93,6 +93,9 @@ public class Game()
         g.DrawImage(imgStrt, 0, 0);
     }
 
+    /// <summary>
+    /// Method which handles the generation of the enemies
+    /// </summary>
     private void GenerateEnemies()
     {
         var imgEnemyBig = Image.FromStream(Assembly.GetExecutingAssembly().GetManifestResourceStream("Explorer700Demo.Ressources.spitze_gross.png"));
@@ -113,6 +116,10 @@ public class Game()
         }
     }
 
+
+    /// <summary>
+    /// Callback method to remove an enemy out of screen
+    /// </summary>
     public void RemoveEnemy(object source)
     {
         if (source.GetType() ==  typeof(Enemy))
