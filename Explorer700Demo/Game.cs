@@ -26,6 +26,7 @@ public class Game()
         _running = false;
         
         DrawStartScreen();
+        DrawScore();
         
         // TODO: Change logic, to draw StartScreen first then start logic with JoyStick press
         while (!(_running))
@@ -48,7 +49,7 @@ public class Game()
 
     public void Stop()
     {
-        Exp700.Joystick.JoystickChanged -= OnJoyStickChange;
+        //Exp700.Joystick.JoystickChanged -= OnJoyStickChange;
         _running = false;
     }
     
@@ -57,39 +58,68 @@ public class Game()
     /// </summary>
     private void Run()
     {
-        var imgFloor = Image.FromStream(Assembly.GetExecutingAssembly().GetManifestResourceStream("Explorer700Demo.Ressources.boden.png"));
-        var imgBlock = Image.FromStream(Assembly.GetExecutingAssembly().GetManifestResourceStream("Explorer700Demo.Ressources.block.png"));
-        _player = new Player(imgBlock, new Vector2(0, 43), new Vector2(11, 11));
-        _entities.Add(_player);
-
-        var g = Exp700.Display.Graphics;
-        Thread enemyThread = new Thread(new ThreadStart(GenerateEnemies));
-        enemyThread.Start();
-        bool stateUpOld = (Game.KeyStates & Keys.Up) != 0;
-        while (_running)
+        Exp700.Display.Clear();
+        while (_running) 
         {
-            foreach (var entity in _entities)
-            {
-                entity.UpdatePos();
-                entity.Draw();
+            Stopwatch stopwatch = new Stopwatch();
+            stopwatch.Start();
+            var imgFloor = Image.FromStream(Assembly.GetExecutingAssembly().GetManifestResourceStream("Explorer700Demo.Ressources.boden.png"));
+            var imgBlock = Image.FromStream(Assembly.GetExecutingAssembly().GetManifestResourceStream("Explorer700Demo.Ressources.block.png"));
+            _player = new Player(imgBlock, new Vector2(0, 43), new Vector2(11, 11));
+            _entities.Add(_player);
 
-                if (entity.GetType() == typeof(Player) && ((Player)entity).IsEnemyInHitbox(_entities)) {
+            var g = Exp700.Display.Graphics;
+            Thread enemyThread = new Thread(new ThreadStart(GenerateEnemies));
+            enemyThread.Start();
+            bool stateUpOld = (Game.KeyStates & Keys.Up) != 0;
+            while (_running)
+            {
+                foreach (var entity in _entities)
+                {
+                    entity.UpdatePos();
+                    entity.Draw();
+
+                    if (entity.GetType() == typeof(Player) && ((Player)entity).IsEnemyInHitbox(_entities)) {
+                        Stop();
+                        stopwatch.Stop();
+                        Console.WriteLine("Sie haben " + (int)stopwatch.Elapsed.TotalSeconds + " Sekunden überlebt");
+                    }
+                }
+
+                bool StateUpCurr = (Game.KeyStates & Keys.Up) != 0;
+                if (StateUpCurr && !stateUpOld)
+                {   
+                    _player.Jump();
+                }
+                stateUpOld = StateUpCurr;
+            
+                g.DrawImage(imgFloor, 0, 54);
+            
+                Exp700.Display.Update();
+                Thread.Sleep(1000 / FPS);
+                Exp700.Display.Clear();
+            }
+            DrawStartScreen();
+            DrawScore(stopwatch);
+            while (!(_running)) 
+            {
+                bool stateleft = (Game.KeyStates & Keys.Left) != 0;
+                bool stateright = (Game.KeyStates & Keys.Right) != 0;
+                if (stateleft)
+                {
+                    foreach(var entity in _entities)
+                    {
+                        _entities.Take();
+                    }
+                    _running = true;
+                }
+                else if (stateright)
+                {
+                    Exp700.Display.Clear();
                     Stop();
+                    break;
                 }
             }
-
-            bool StateUpCurr = (Game.KeyStates & Keys.Up) != 0;
-            if (StateUpCurr && !stateUpOld)
-            {   
-                _player.Jump();
-            }
-            stateUpOld = StateUpCurr;
-            
-            g.DrawImage(imgFloor, 0, 54);
-            
-            Exp700.Display.Update();
-            Thread.Sleep(1000 / FPS);
-            Exp700.Display.Clear();
         }
     }
     
@@ -152,5 +182,43 @@ public class Game()
     {
         Console.WriteLine("Joystick: " + e.Keys);
         Game.KeyStates = e.Keys;
+    }
+
+    /// <summary>
+    /// Method to Draw the Score without argument
+    /// </summary>
+    private void DrawScore()
+    {
+        var g = Exp700.Display.Graphics;
+        var imgScore = Image.FromStream(Assembly.GetExecutingAssembly().GetManifestResourceStream("Explorer700Demo.Ressources.0.png"));
+        g?.DrawImage(imgScore, 75, 5);
+        Exp700.Display.Update();
+    }
+
+    /// <summary>
+    /// Method to Draw the Score with stopwatch argument
+    /// </summary>
+    private void DrawScore(Stopwatch stopwatch)
+    {
+        var g = Exp700.Display.Graphics;
+        if (stopwatch == null)
+        {
+            var imgScore = Image.FromStream(Assembly.GetExecutingAssembly().GetManifestResourceStream("Explorer700Demo.Ressources.0.png"));
+            g?.DrawImage(imgScore, 75, 5);
+            Exp700.Display.Update();
+        } else if ((int)stopwatch.Elapsed.TotalSeconds < 299)
+        {
+            int score = (int)stopwatch.Elapsed.TotalSeconds * 10;
+            string resourceName = $"Explorer700Demo.Ressources.1.png";
+            Exp700.Display.Clear();
+            var imgScore = Image.FromStream(Assembly.GetExecutingAssembly().GetManifestResourceStream(resourceName));
+            g?.DrawImage(imgScore, 75, 5);
+            Exp700.Display.Update();
+        } else
+        {
+            var imgScore = Image.FromStream(Assembly.GetExecutingAssembly().GetManifestResourceStream("Explorer700Demo.Ressources.2990.png"));
+            g?.DrawImage(imgScore, 75, 5);
+            Exp700.Display.Update();
+        }
     }
 }
