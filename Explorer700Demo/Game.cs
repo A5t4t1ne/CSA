@@ -115,9 +115,7 @@ public class Game()
                 }
                 else if (stateright)
                 {
-                    Exp700.Display.Clear();
-                    Stop();
-                    break;
+                    System.Environment.Exit(0);
                 }
             }
         }
@@ -190,7 +188,7 @@ public class Game()
     private void DrawScore()
     {
         var g = Exp700.Display.Graphics;
-        var imgScore = Image.FromStream(Assembly.GetExecutingAssembly().GetManifestResourceStream("Explorer700Demo.Ressources.0.png"));
+        var imgScore = Image.FromStream(Assembly.GetExecutingAssembly().GetManifestResourceStream("Explorer700Demo.Ressources.zahlen.0.png"));
         g?.DrawImage(imgScore, 75, 5);
         Exp700.Display.Update();
     }
@@ -209,14 +207,13 @@ public class Game()
         } else if ((int)stopwatch.Elapsed.TotalSeconds < 299)
         {
             int score = (int)stopwatch.Elapsed.TotalSeconds * 10;
-            string resourceName = $"Explorer700Demo.Ressources.1.png";
-            Exp700.Display.Clear();
+            string resourceName = $"Explorer700Demo.Ressources.zahlen.{score}.png";
             var imgScore = Image.FromStream(Assembly.GetExecutingAssembly().GetManifestResourceStream(resourceName));
             g?.DrawImage(imgScore, 75, 5);
             Exp700.Display.Update();
         } else
         {
-            var imgScore = Image.FromStream(Assembly.GetExecutingAssembly().GetManifestResourceStream("Explorer700Demo.Ressources.2990.png"));
+            var imgScore = Image.FromStream(Assembly.GetExecutingAssembly().GetManifestResourceStream("Explorer700Demo.Ressources.zahlen.2000.png"));
             g?.DrawImage(imgScore, 75, 5);
             Exp700.Display.Update();
         }
