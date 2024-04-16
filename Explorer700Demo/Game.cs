@@ -201,10 +201,10 @@ public class Game()
         var g = Exp700.Display.Graphics;
         if (stopwatch == null)
         {
-            var imgScore = Image.FromStream(Assembly.GetExecutingAssembly().GetManifestResourceStream("Explorer700Demo.Ressources.0.png"));
+            var imgScore = Image.FromStream(Assembly.GetExecutingAssembly().GetManifestResourceStream("Explorer700Demo.Ressources.zahlen.{score}.png"));
             g?.DrawImage(imgScore, 75, 5);
             Exp700.Display.Update();
-        } else if ((int)stopwatch.Elapsed.TotalSeconds < 299)
+        } else if ((int)stopwatch.Elapsed.TotalSeconds < 200)
         {
             int score = (int)stopwatch.Elapsed.TotalSeconds * 10;
             string resourceName = $"Explorer700Demo.Ressources.zahlen.{score}.png";
