@@ -7,11 +7,15 @@ namespace Explorer700Demo
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Start...");
-            Game game = new Game();
-            game.Start();
+            Webserver ws = new Webserver("0.0.0.0", 80);
+            ws.Start();
             Console.ReadKey();
-            game.Stop();
+            ws.Stop();
+            // Console.WriteLine("Start...");
+            // Game game = new Game();
+            // game.Start();
+            // Console.ReadKey();
+            // game.Stop();
         }
     }
 }

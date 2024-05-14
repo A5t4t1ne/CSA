@@ -235,7 +235,6 @@
     <None Remove="Ressources\zahlen\970.png" />
     <None Remove="Ressources\zahlen\980.png" />
     <None Remove="Ressources\zahlen\990.png" />
-    <EmbeddedResource Include="Ressources\startscrn.png" />
     <EmbeddedResource Include="Ressources\zahlen\0.png" />
     <EmbeddedResource Include="Ressources\zahlen\10.png" />
     <EmbeddedResource Include="Ressources\zahlen\20.png" />
