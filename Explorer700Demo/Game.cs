@@ -17,13 +17,16 @@ public class Game()
     private Player _player;
     private static Keys KeyStates;
     private bool _running = false;
+    private Webserver ws = new Webserver("0.0.0.0", 80);
     public static readonly int FPS = 50;
-
+    
     /// <summary>
     /// Starts the game cycle.
     /// </summary>
     public void Start()
     {
+        ws.Start();
+        
         Exp700.Joystick.JoystickChanged += OnJoyStickChange;
         _running = false;
         
@@ -52,6 +55,7 @@ public class Game()
     {
         //Exp700.Joystick.JoystickChanged -= OnJoyStickChange;
         _running = false;
+        ws.Stop();
     }
     
     /// <summary>

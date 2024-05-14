@@ -3,6 +3,7 @@ using System.IO;
 using System.Net;
 using System.Net.Sockets;
 using System.Runtime.InteropServices.ComTypes;
+using System.Text;
 using System.Threading;
 
 namespace Explorer700Demo;
@@ -64,12 +65,61 @@ public class Webserver
                 Console.WriteLine("Verbindung zu {0} aufgebaut", client.Client.RemoteEndPoint);
 
                 // Read the HTTP request
-                StreamReader reader = new StreamReader(client.GetStream());
+                // StreamReader reader = new StreamReader(client.GetStream());
                 // string request = reader.ReadToEnd();
+                
+                // Read the HTTP request
+                NetworkStream stream = client.GetStream();
+                byte[] buffer = new byte[1024];
+                int bytesRead = stream.Read(buffer, 0, buffer.Length);
+                string request = Encoding.ASCII.GetString(buffer, 0, bytesRead);
 
-                // Parse the request and generate a response
-                string response = "HTTP/1.1 200 OK\r\nContent-Type: text/html\r\n\r\n<html><body>Hello, World!</body></html>";
+                // Parse the request URL
+                string[] requestParts = request.Split(new[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries);
+                string requestLine = requestParts[0];
+                string[] requestLineParts = requestLine.Split(' ');
+                string requestMethod = requestLineParts[0];
+                string requestUrl = requestLineParts[1];
+                
+                string response = "";
+                if (requestUrl == "/download")
+                {
+                    // TODO
+                }
+                else
+                {
+                    string filePath = "/home/pi/netcore/Excersises/";
+                    if (requestUrl == "/log.txt")
+                    {
+                        filePath += "bin/Debug/net8.0/log.txt";
+                        response = "HTTP/1.1 200 OK\r\n";
+                        response += "Content-Type: text/plain; charset=utf-8\r\n";
+                    }
+                    else
+                    {
+                        filePath += "html/index.html";
+                        response = "HTTP/1.1 200 OK\r\n";
+                        response += "Content-Type: text/html;\r\n";
+                    }
+                    
+                    string fileContents;
+                    try
+                    {
+                        using StreamReader sr = new StreamReader(filePath);
+                        fileContents = sr.ReadToEnd();
+                    }
+                    catch (Exception e)
+                    {
+                        Console.WriteLine("File not found: {0}", e);
+                        fileContents = "Log file not found";
+                    }
 
+
+                    response += "Content-Length: " + fileContents.Length + "\r\n";
+                    response += "\r\n";
+                    response += fileContents;
+                }
+                
                 // Send the HTTP response
                 StreamWriter writer = new StreamWriter(client.GetStream());
                 writer.Write(response);
