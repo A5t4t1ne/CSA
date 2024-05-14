@@ -12,6 +12,7 @@ namespace Explorer700Demo;
 public class Game()
 {
     private Explorer700 Exp700 { get; } = Exp700Singleton.Instance;
+    private static Logger MovementLogger { get; } = Logger.Instance;
     private readonly BlockingCollection<Entity> _entities = [];
     private Player _player;
     private static Keys KeyStates;
@@ -29,7 +30,6 @@ public class Game()
         DrawStartScreen();
         DrawScore();
         
-        // TODO: Change logic, to draw StartScreen first then start logic with JoyStick press
         while (!(_running))
         {
             bool stateleft = (Game.KeyStates & Keys.Left) != 0;
@@ -180,6 +180,7 @@ public class Game()
     private static void OnJoyStickChange(object? sender, KeyEventArgs e)
     {
         Console.WriteLine("Joystick: " + e.Keys);
+        MovementLogger.LogEntry("Joystick: " + e.Keys + ": " + DateTime.Now.ToString());
         Game.KeyStates = e.Keys;
     }
 
