@@ -2,7 +2,6 @@ using System;
 using System.IO;
 using System.Net;
 using System.Net.Sockets;
-using System.Runtime.InteropServices.ComTypes;
 using System.Text;
 using System.Threading;
 
@@ -82,44 +81,45 @@ public class Webserver
                 string requestUrl = requestLineParts[1];
                 
                 string response = "";
+                string filePath = "/home/pi/netcore/Excersises/";
                 if (requestUrl == "/download")
                 {
-                    // TODO
+                    filePath += "bin/Debug/net8.0/log.txt";
+                    response = "HTTP/1.1 200 OK\r\n";
+                    response += "Content-Type: application/force-download; charset=utf-8\r\n";
+                    response += "Content-Disposition: inline; filename=log.txt\r\n\r\n";
+                }
+                else if (requestUrl == "/log.txt")
+                {
+                    filePath += "bin/Debug/net8.0/log.txt";
+                    response = "HTTP/1.1 200 OK\r\n";
+                    response += "Content-Type: text/plain; charset=utf-8\r\n";
                 }
                 else
                 {
-                    string filePath = "/home/pi/netcore/Excersises/";
-                    if (requestUrl == "/log.txt")
-                    {
-                        filePath += "bin/Debug/net8.0/log.txt";
-                        response = "HTTP/1.1 200 OK\r\n";
-                        response += "Content-Type: text/plain; charset=utf-8\r\n";
-                    }
-                    else
-                    {
-                        filePath += "html/index.html";
-                        response = "HTTP/1.1 200 OK\r\n";
-                        response += "Content-Type: text/html;\r\n";
-                    }
-                    
-                    string fileContents;
-                    try
-                    {
-                        using StreamReader sr = new StreamReader(filePath);
-                        fileContents = sr.ReadToEnd();
-                    }
-                    catch (Exception e)
-                    {
-                        Console.WriteLine("File not found: {0}", e);
-                        fileContents = "Log file not found";
-                    }
-
-
-                    response += "Content-Length: " + fileContents.Length + "\r\n";
-                    response += "\r\n";
-                    response += fileContents;
+                    filePath += "html/index.html";
+                    response = "HTTP/1.1 200 OK\r\n";
+                    response += "Content-Type: text/html;\r\n";
                 }
-                
+
+                string fileContents;
+                try
+                {
+                    using StreamReader sr = new StreamReader(filePath);
+                    fileContents = sr.ReadToEnd();
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine("File not found: {0}", e);
+                    fileContents = "Log file not found";
+                }
+                if (requestUrl != "/download")
+                {
+                    response += "Content-Length: " + fileContents.Length + "\r\n\r\n";
+                }
+
+                response += fileContents;
+
                 // Send the HTTP response
                 StreamWriter writer = new StreamWriter(client.GetStream());
                 writer.Write(response);

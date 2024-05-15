@@ -34,28 +34,5 @@ namespace Explorer700Demo
                 Console.WriteLine(e.ToString());
             }
         }
-
-        public string GetLog()
-        {
-            try
-            {
-                string content = "";
-                using (StreamReader sr = new StreamReader(logFile, Encoding.UTF8))
-                {
-                    string line;
-                    while ((line = sr.ReadLine()) != null)
-                    {
-                        content += line + "\n";
-                    }
-                }
-                return content;
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e.ToString());
-
-                return "";
-            }
-        }
     }
 }
