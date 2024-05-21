@@ -48,7 +48,7 @@ public class Webserver
         {
             if (this.addr == null)
             {
-                Console.WriteLine("Fauschi IP idiot {0}", this.addr);
+                Console.WriteLine("IP not valid: {0}", this.addr);
                 return;
             }
             
@@ -130,7 +130,7 @@ public class Webserver
         }
         catch (Exception e)
         {
-            Console.WriteLine("Isch am umebitche: {0}", e);
+            Console.WriteLine("Webserver chose NO because: {0}", e);
         }
     }
 
