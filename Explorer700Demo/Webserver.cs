@@ -81,17 +81,17 @@ public class Webserver
                 string requestUrl = requestLineParts[1];
                 
                 string response = "";
-                string filePath = "/home/pi/netcore/Excersises/";
+                string filePath = "./";
                 if (requestUrl == "/download")
                 {
-                    filePath += "bin/Debug/net8.0/log.txt";
+                    filePath += "./log.txt";
                     response = "HTTP/1.1 200 OK\r\n";
                     response += "Content-Type: application/force-download; charset=utf-8\r\n";
                     response += "Content-Disposition: inline; filename=log.txt\r\n\r\n";
                 }
                 else if (requestUrl == "/log.txt")
                 {
-                    filePath += "bin/Debug/net8.0/log.txt";
+                    filePath += "./log.txt";
                     response = "HTTP/1.1 200 OK\r\n";
                     response += "Content-Type: text/plain; charset=utf-8\r\n";
                 }

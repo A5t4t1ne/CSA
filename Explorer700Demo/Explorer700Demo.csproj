@@ -7,10 +7,10 @@
 	  <GenerateRuntimeConfigurationFiles>true</GenerateRuntimeConfigurationFiles>
 	  <Nullable>enable</Nullable>
   </PropertyGroup>
-  
-  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-    <Exec Command="scp -r . raspy:~/netcore/Excersises" />
-  </Target>
+
+	<Target Name="PostBuild" AfterTargets="PostBuildEvent">
+		<Exec Command="scp -r . raspy:~/netcore/Excersises" />
+	</Target>
 
   <ItemGroup>
     <None Remove="Ressources\AsciiFontPng" />
@@ -440,6 +440,12 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Explorer700Library\Explorer700Library.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="html\index.html">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>
